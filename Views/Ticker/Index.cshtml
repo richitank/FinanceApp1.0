@@ -1,0 +1,44 @@
+﻿@using PagedList
+@using PagedList.Mvc
+@model PagedList.IPagedList<Tickers>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="container-fluid">
+    <table cellpadding="10" cellspacing="10" border="1">
+        <tr>
+            <th>Ticker</th>
+            <th>Name</th>
+            <th>Currency</th>
+        </tr>
+        @foreach (var a in Model)
+        {
+            <tr>
+                <td>@a.Ticker</td>
+                <td>@a.Name</td>
+                <td>@a.Currency_Name</td>
+            </tr>
+        }
+    </table>
+    <br/>
+
+    <div class="pagination">
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                <li class="page-item @(Model.PageNumber == 1 ? "disabled" : "")">
+                    <a class="page-link" href="@Url.Action("Index", new { page = 1 })">First</a>
+                </li>
+                <li class="page-item @(Model.PageNumber == 1 ? "disabled" : "")">
+                    <a class="page-link" href="@Url.Action("Index", new { page = Model.PageNumber - 1 })">Previous</a>
+                </li>
+                <li class="page-item @(Model.PageNumber == Model.PageCount ? "disabled" : "")">
+                    <a class="page-link" href="@Url.Action("Index", new { page = Model.PageNumber + 1 })">Next</a>
+                </li>
+                <li class="page-item @(Model.PageNumber == Model.PageCount ? "disabled" : "")">
+                    <a class="page-link" href="@Url.Action("Index", new { page = Model.PageCount })">Last</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
