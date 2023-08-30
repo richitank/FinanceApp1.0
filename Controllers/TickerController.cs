@@ -20,18 +20,18 @@ namespace FinanceProject_WebApp_1_1.Controllers
 
         static HttpClient client = new HttpClient();
         string apiKey = "zdwksmamdmJ5FpDzhehD7MY4fuZrHgfl";
-        string baseAddress = "https://api.polygon.io/v3/reference/tickers?Active=true";   
+        string baseAddress = "https://api.polygon.io/v3/reference/tickerList?Active=true";   
 
-        //TODO: This can be improved to dynamically show all the tickers using next_url feature
+        //TODO: This can be improved to dynamically show all the tickerList using next_url feature
         public async Task<IActionResult> Index(int? page)
         {
             int pageSize = 50;
             int pageNumber = page ?? 1;
 
             var url = $"{baseAddress}&limit=500&apiKey={apiKey}";
-            TickerList tickers =  await client.GetFromJsonAsync<TickerList>(url);
+            TickerList tickerList =  await client.GetFromJsonAsync<TickerList>(url);
 
-            IPagedList<Tickers> list = tickers.Results.ToPagedList(pageNumber, pageSize);
+            IPagedList<Tickers> list = tickerList.Results.ToPagedList(pageNumber, pageSize);
             return View(list);
         }
 
