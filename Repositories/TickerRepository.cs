@@ -18,21 +18,21 @@ namespace FinanceProject_WebApp_1_1.Repositories
             _db = db;
            //_mapper = mapper;
         }
-        public Tickers GetTickerBySymbol(string symbol)
+        public Tickers GetBySymbol(string symbol)
         {
             return _tickers.FirstOrDefault(p => p.Ticker == symbol);
         }
 
-        public IEnumerable<Tickers> GetTickers()
+        public IEnumerable<Tickers> GetAll()
         {
             return _tickers;
         }
-        public void AddTickerData(Tickers ticker)
+        public void Add(Tickers ticker)
         {
             _tickers.Add(ticker);
         }
 
-        public void UpdateTickerData(Tickers ticker)
+        public void Update(Tickers ticker)
         {
             var existingTicker = _tickers.FirstOrDefault(p => p.Ticker == ticker.Ticker);
             if (existingTicker != null)
@@ -54,7 +54,7 @@ namespace FinanceProject_WebApp_1_1.Repositories
             }
         }
 
-        public void DeleteTickerData(string symbol)
+        public void Delete(string symbol)
         {
             var tickerToDelete = _tickers.FirstOrDefault(p => p.Ticker == symbol);
             if (tickerToDelete != null)
