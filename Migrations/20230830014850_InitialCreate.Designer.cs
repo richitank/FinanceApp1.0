@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinanceProject_WebApp_1_1.Migrations
 {
     [DbContext(typeof(FinanceDBContext))]
-    [Migration("20230827183437_ChangesConnDB")]
-    partial class ChangesConnDB
+    [Migration("20230830014850_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,8 +28,7 @@ namespace FinanceProject_WebApp_1_1.Migrations
             modelBuilder.Entity("FinanceProject_WebApp_1_1.Models.Tickers", b =>
                 {
                     b.Property<string>("Ticker")
-                        .HasColumnType("nvarchar(450)")
-                        .HasColumnName("TickerSymbol");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -66,7 +65,18 @@ namespace FinanceProject_WebApp_1_1.Migrations
 
                     b.HasKey("Ticker");
 
-                    b.ToTable("TickerList");
+                    b.ToTable("Tickers");
+
+                    b.HasData(
+                        new
+                        {
+                            Ticker = "AAPL",
+                            Active = true,
+                            Composite_Figi = "88",
+                            Currency_Name = "USD",
+                            Last_Updated_Utc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Apple Comapny"
+                        });
                 });
 #pragma warning restore 612, 618
         }

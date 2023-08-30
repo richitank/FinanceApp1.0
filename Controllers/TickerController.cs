@@ -1,5 +1,6 @@
 ﻿using FinanceProject_WebApp_1_1.Models;
 using FinanceProject_WebApp_1_1.Repositories;
+using FinanceProject_WebApp_1_1.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PagedList;
@@ -11,18 +12,18 @@ namespace FinanceProject_WebApp_1_1.Controllers
 {
     public class TickerController : Controller
     {
-        private readonly ITickerRepository _tickerRepository;
-        public TickerController(ITickerRepository tickerRepository)
+        private readonly ITickerService _tickerService;
+        public TickerController(ITickerService tickerService)
         {
-            _tickerRepository = tickerRepository;
+            _tickerService = tickerService;
         }
-
 
         static HttpClient client = new HttpClient();
         string apiKey = "zdwksmamdmJ5FpDzhehD7MY4fuZrHgfl";
-        string baseAddress = "https://api.polygon.io/v3/reference/tickerList?Active=true";   
+        string baseAddress = "https://api.polygon.io/v3/reference/tickers?Active=true";   
 
         //TODO: This can be improved to dynamically show all the tickerList using next_url feature
+
         public async Task<IActionResult> Index(int? page)
         {
             int pageSize = 50;
@@ -36,21 +37,38 @@ namespace FinanceProject_WebApp_1_1.Controllers
         }
 
         // GET: TickerController/Details/5
-        public ActionResult Details(int id)
+        [HttpGet]
+        public ActionResult Details(string symbol="AAPL")
         {
+            var ticker = _tickerService.GetTickerBySymbol(symbol);
+            if(ticker == null)
+            {
+                return NotFound();
+            }
+            return View(ticker);
+        }
+
+        [HttpGet]
+        // GET: TickerController/Add
+        public ActionResult Add()
+        {
+            var newTicker = new Tickers
+            {
+                Ticker = "TestData3",
+                Active = true,
+                Name = "Test3",
+                Currency_Name = "USD",
+                Composite_Figi = "889"
+            };
+
+            _tickerService.AddTicker(newTicker);
             return View();
         }
 
-        // GET: TickerController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: TickerController/Create
+        // POST: TickerController/Add
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Add(IFormCollection collection)
         {
             try
             {
@@ -63,9 +81,19 @@ namespace FinanceProject_WebApp_1_1.Controllers
         }
 
         // GET: TickerController/Edit/5
-        public ActionResult Edit(int id)
+        [HttpGet]
+        public ActionResult Edit(string symbol="TestData")
         {
-            return View();
+            //TODO: This needs update operation
+            var existingTicker = _tickerService.GetTickerBySymbol(symbol);
+            if (existingTicker != null)
+            {
+                existingTicker.Composite_Figi = "64794";
+                existingTicker.Active = false;
+                existingTicker.Name = "TestDataNew";
+                _tickerService.UpdateTicker(existingTicker);
+            }
+            return View(existingTicker);
         }
 
         // POST: TickerController/Edit/5
@@ -84,8 +112,17 @@ namespace FinanceProject_WebApp_1_1.Controllers
         }
 
         // GET: TickerController/Delete/5
-        public ActionResult Delete(int id)
+        [HttpGet]
+        public ActionResult Delete(string symbol="TestData3")
         {
+            try
+            {
+                _tickerService.DeleteTicker(symbol);
+            }
+            catch
+            {
+                return NoContent();
+            }
             return View();
         }
 

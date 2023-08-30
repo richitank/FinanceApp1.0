@@ -1,5 +1,6 @@
 using FinanceProject_WebApp_1_1.DbContexts;
 using FinanceProject_WebApp_1_1.Repositories;
+using FinanceProject_WebApp_1_1.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -30,8 +31,9 @@ namespace FinanceProject_WebApp_1_1
         {
             services.AddControllersWithViews();
             services.AddDbContext<FinanceDBContext>(options=>
-            options.UseSqlServer(Configuration.GetConnectionString("FinanceAppConnString")));
+            options.UseSqlServer(Configuration.GetConnectionString("FinanceAppConnString"))); 
             services.AddScoped<ITickerRepository, TickerRepository>();
+            services.AddScoped<ITickerService, TickerService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

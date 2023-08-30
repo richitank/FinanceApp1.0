@@ -28,13 +28,14 @@ namespace FinanceProject_WebApp_1_1.DbContexts
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Tickers>().HasData(new Tickers
+            /*modelBuilder.Entity<Tickers>().HasData(new Tickers
             {
                 Ticker = "AAPL",
                 Active = true,
                 Name = "Apple Comapny",
-                Currency_Name = "USD"
-            });
+                Currency_Name = "USD",
+                Composite_Figi = "88"
+            });*/
 
         }
 

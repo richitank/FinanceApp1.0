@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using FinanceProject_WebApp_1_1.DbContexts;
 using FinanceProject_WebApp_1_1.Models;
+using Microsoft.CodeAnalysis.Elfie.Model;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,46 +21,36 @@ namespace FinanceProject_WebApp_1_1.Repositories
         }
         public Tickers GetBySymbol(string symbol)
         {
-            return _tickers.FirstOrDefault(p => p.Ticker == symbol);
+            return _db.Tickers.FirstOrDefault(t => t.Ticker == symbol);
         }
 
         public IEnumerable<Tickers> GetAll()
         {
-            return _tickers;
+            return _db.Tickers.ToList();
         }
         public void Add(Tickers ticker)
         {
-            _tickers.Add(ticker);
+            _db.Tickers.Add(ticker);
+            _db.SaveChanges();
         }
 
         public void Update(Tickers ticker)
         {
-            var existingTicker = _tickers.FirstOrDefault(p => p.Ticker == ticker.Ticker);
+            var existingTicker = _db.Tickers.FirstOrDefault(t => t.Ticker == ticker.Ticker);
             if (existingTicker != null)
             {
-                //existingTicker = ticker;
-                existingTicker.Ticker = ticker.Ticker;
-                existingTicker.Cik = ticker.Cik;
-                existingTicker.Market = ticker.Market;
-                existingTicker.Share_Class_Figi =  ticker.Share_Class_Figi;
-                existingTicker.Composite_Figi = ticker.Composite_Figi;
-                existingTicker.Active = ticker.Active;
-                existingTicker.Currency_Name = ticker.Currency_Name;
-                existingTicker.Last_Updated_Utc = ticker.Last_Updated_Utc;
-                existingTicker.Locale = ticker.Locale;
-                existingTicker.Market = ticker.Market;
-                existingTicker.Name = ticker.Name;
-                existingTicker.Primary_Exchange = ticker.Primary_Exchange;
-                existingTicker.Type = ticker.Type;
-            }
+                _db.Tickers.Update(ticker);
+                _db.SaveChanges();
+            }        
         }
 
         public void Delete(string symbol)
         {
-            var tickerToDelete = _tickers.FirstOrDefault(p => p.Ticker == symbol);
+            var tickerToDelete = _db.Tickers.FirstOrDefault(t => t.Ticker == symbol);
             if (tickerToDelete != null)
             {
-                _tickers.Remove(tickerToDelete);
+                _db.Tickers.Remove(tickerToDelete);
+                _db.SaveChanges();
             }
         }
 

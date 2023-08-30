@@ -7,11 +7,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FinanceProject_WebApp_1_1.Models
 {
-    [Table("TickerList")]
     public class Tickers
     {
         [Key]
-        [Column("TickerList")]
         public string Ticker { get; set; }
         public bool Active { get; set; }
         public string Cik { get; set; }

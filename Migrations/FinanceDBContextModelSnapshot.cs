@@ -25,8 +25,7 @@ namespace FinanceProject_WebApp_1_1.Migrations
             modelBuilder.Entity("FinanceProject_WebApp_1_1.Models.Tickers", b =>
                 {
                     b.Property<string>("Ticker")
-                        .HasColumnType("nvarchar(450)")
-                        .HasColumnName("TickerList");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -63,13 +62,14 @@ namespace FinanceProject_WebApp_1_1.Migrations
 
                     b.HasKey("Ticker");
 
-                    b.ToTable("TickerList");
+                    b.ToTable("Tickers");
 
                     b.HasData(
                         new
                         {
                             Ticker = "AAPL",
                             Active = true,
+                            Composite_Figi = "88",
                             Currency_Name = "USD",
                             Last_Updated_Utc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Apple Comapny"
