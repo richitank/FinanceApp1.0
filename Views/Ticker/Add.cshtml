@@ -1,5 +1,116 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model FinanceProject_WebApp_1_1.Models.Tickers
+
+@* <form asp-action="Add">
+    <div class="form-group">
+        <label asp-for="Ticker">Ticker:</label>
+        <input asp-for="Ticker" class="form-control" required />
+        <span asp-validation-for="Ticker" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Composite_Figi">Composite_Figi:</label>
+        <input asp-for="Composite_Figi" class="form-control" required />
+        <span asp-validation-for="Composite_Figi" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Currency_Name">Currency:</label>
+        <input asp-for="Currency_Name" class="form-control" required />
+        <span asp-validation-for="Currency_Name" class="text-danger"></span>
+    </div>
+
+    <div class="col-5">
+        <input type="submit" value="Create" class="btn btn-success form-control" />
+    </div>
+</form> *@
+
+@using (Html.BeginForm("Add", "Ticker", FormMethod.Post))
+{
+
+<div class="container p-4 border">
+        <div class="row pb-2">
+            <div class="col">
+                <h1 class="text-primary">Add Stock</h1>
+            </div>
+        </div>
+   
+            <table class="table">
+                <tr>
+                    <td>
+                       @Html.LabelFor(m=>m.Ticker, "Ticker Symbol") : 
+                       <br/>
+                       @Html.TextBoxFor(m=>m.Ticker)        
+                    </td>
+                    <td>
+                        @* TODO: convert this to a dropdownlist *@
+                        @Html.LabelFor(m =>m.Currency_Name, "Currency") : 
+                        <br/>
+                        @Html.TextBoxFor(m=>m.Currency_Name)         
+                    </td>
+                    <td>
+
+                        @Html.LabelFor(m=>m.Composite_Figi, "Composite Figi") : 
+                        <br/>
+                        @Html.TextBoxFor(m=>m.Composite_Figi)
+                    </td>
+                    <td>
+                       @* TODO: convert this to a checkbox *@
+                        @Html.LabelFor(m=>m.Active, "isActive") : 
+                        <br/>
+                        @Html.TextBoxFor(m=>m.Active)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m=>m.Locale) : 
+                        <br/>
+                        @Html.TextBoxFor(m=>m.Locale)
+                    </td>
+                    <td>
+                        @Html.LabelFor(m=>m.Market) : 
+                        <br/>
+                        @Html.TextBoxFor(m=>m.Market)
+                    </td>
+                    <td>
+                        @Html.LabelFor(m=>m.Cik) : 
+                        <br/>
+                        @Html.TextBoxFor(m=>m.Cik)
+                    </td>
+                    <td>
+                        @Html.LabelFor(m=>m.Primary_Exchange, "Primary Exchange") : 
+                        <br/>
+                        @Html.TextBoxFor(m=>m.Primary_Exchange)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m=>m.Share_Class_Figi, "Share Class Figi") : 
+                        <br/>
+                        @Html.TextBoxFor(m=>m.Share_Class_Figi)
+                    </td>
+                    <td>
+                        @Html.LabelFor(m=>m.Type) :
+                        <br/>
+                        @Html.TextBoxFor(m=>m.Type)
+                    </td>  
+                    <td colspan="2">
+                        @Html.LabelFor(m=>m.Name, "Company Name") :
+                        <br />
+                        @Html.TextBoxFor(m=>m.Name)
+                    </td>
+                    
+                </tr>
+                <tr>
+                    <td>
+                    <input type="submit" value="Create" class="btn btn-success form-control" />
+                    </td>
+                    <td>
+                    <a class="btn btn-primary form-control" asp-action="Index">Back</a>
+                    </td>
+                    <td colspan="2"></td>
+                </tr>
+            
+            </table> 
+   
+    </div>
+    }

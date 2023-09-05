@@ -26,9 +26,9 @@ namespace FinanceProject_WebApp_1_1.Services
             _tickerRepository.Add(ticker);
         }
 
-        public void UpdateTicker(Tickers ticker)
+        public void UpdateTicker(Tickers tickerObject)
         {
-            _tickerRepository.Update(ticker);
+            _tickerRepository.Update(tickerObject);
         }
         public void DeleteTicker(string symbol)
         {

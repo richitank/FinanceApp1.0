@@ -3,6 +3,7 @@ using FinanceProject_WebApp_1_1.Repositories;
 using FinanceProject_WebApp_1_1.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -18,10 +19,10 @@ namespace FinanceProject_WebApp_1_1
     public class Startup
     {
         private readonly IWebHostEnvironment _webHostEnvironment;
-        public Startup(IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
+        public Startup(IConfiguration configuration) // IWebHostEnvironment webHostEnvironment)
         {
             Configuration = configuration;
-            _webHostEnvironment = webHostEnvironment;
+           // _webHostEnvironment = webHostEnvironment;
         }
 
         public IConfiguration Configuration { get; }
@@ -34,6 +35,8 @@ namespace FinanceProject_WebApp_1_1
             options.UseSqlServer(Configuration.GetConnectionString("FinanceAppConnString"))); 
             services.AddScoped<ITickerRepository, TickerRepository>();
             services.AddScoped<ITickerService, TickerService>();
+
+           
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

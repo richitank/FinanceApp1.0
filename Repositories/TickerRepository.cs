@@ -34,12 +34,23 @@ namespace FinanceProject_WebApp_1_1.Repositories
             _db.SaveChanges();
         }
 
-        public void Update(Tickers ticker)
+        public void Update(Tickers tickerObject)
         {
-            var existingTicker = _db.Tickers.FirstOrDefault(t => t.Ticker == ticker.Ticker);
+            var existingTicker = _db.Tickers.FirstOrDefault(t => t.Ticker == tickerObject.Ticker);
             if (existingTicker != null)
             {
-                _db.Tickers.Update(ticker);
+                existingTicker.Composite_Figi = tickerObject.Composite_Figi;
+                existingTicker.Active = tickerObject.Active;
+                existingTicker.Currency_Name = tickerObject.Currency_Name;
+                existingTicker.Cik = tickerObject.Cik;
+                existingTicker.Market = tickerObject.Market;
+                existingTicker.Locale = tickerObject.Locale;
+                existingTicker.Last_Updated_Utc = tickerObject.Last_Updated_Utc;
+                existingTicker.Share_Class_Figi = tickerObject.Share_Class_Figi;
+                existingTicker.Name = tickerObject.Name;
+                existingTicker.Primary_Exchange = tickerObject.Primary_Exchange;
+                existingTicker.Type = tickerObject.Type;
+                _db.Tickers.Update(existingTicker);
                 _db.SaveChanges();
             }        
         }

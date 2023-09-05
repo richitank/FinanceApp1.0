@@ -7,8 +7,8 @@ namespace FinanceProject_WebApp_1_1.Services
     {
         IEnumerable<Tickers> GetAllTickers();
         Tickers GetTickerBySymbol(string symbol);
-        void AddTicker(Tickers ticker);
-        void UpdateTicker(Tickers ticker);
+        void AddTicker(Tickers tickerObject);
+        void UpdateTicker(Tickers tickerObject);
         void DeleteTicker(string symbol);
     }
 }

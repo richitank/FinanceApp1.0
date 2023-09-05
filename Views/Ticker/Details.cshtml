@@ -3,6 +3,62 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>@Model.Ticker</h1>
-<h1>@Model.Currency_Name</h1>
+<br />
+<div class="container p-4 border">
+    <div class="row pb-2">
+        <div class="col">
+            <h1 class="text-primary">Details</h1>
+        </div>
+    </div> 
+    <table class="table">      
+           <tr>     
+               <td>
+                    @Html.LabelFor(m=>m.Ticker) : @Html.ValueFor(m=>m.Ticker)
+               </td>
+                <td>
+                    @Html.LabelFor(m=>m.Currency_Name) : @Html.ValueFor(m=>m.Currency_Name)
+                </td>
+                <td>
+                    @Html.LabelFor(m=>m.Composite_Figi) : @Html.ValueFor(m=>m.Composite_Figi)
+                </td>
+                <td>
+                    @Html.LabelFor(m=>m.Active) : @Html.ValueFor(m=>m.Active)
+                </td>
+           </tr>
+               <tr>
+                <td>
+                    @Html.LabelFor(m=>m.Locale) : @Html.ValueFor(m=>m.Locale)
+                </td>
+                <td>
+                    @Html.LabelFor(m=>m.Market) : @Html.ValueFor(m=>m.Market)
+                </td>
+                <td>
+                    @Html.LabelFor(m=>m.Cik) : @Html.ValueFor(m=>m.Cik)
+                </td>
+                <td>
+                    @Html.LabelFor(m=>m.Primary_Exchange) : @Html.ValueFor(m=>m.Primary_Exchange)
+                </td>
+               </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(m=>m.Last_Updated_Utc) : @Html.ValueFor(m=>m.Last_Updated_Utc)
+                </td>
+                <td>
+                    @Html.LabelFor(m=>m.Share_Class_Figi) : @Html.ValueFor(m=>m.Share_Class_Figi)
+                </td>
+                <td>
+                    @Html.LabelFor(m=>m.Type) : @Html.ValueFor(m=>m.Type)
+                </td>
+                <td>
+                    @Html.LabelFor(m=>m.Type) : @Html.ValueFor(m=>m.Type)
+                </td>
+            </tr>
+           <tr>
+               <td colspan="4">
+                    <a class="btn btn-primary" asp-action="Index">Back</a>
+               </td>          
+           </tr>    
+    </table>
+</div>
+
 

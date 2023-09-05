@@ -3,7 +3,10 @@ using FinanceProject_WebApp_1_1.Repositories;
 using FinanceProject_WebApp_1_1.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.Elfie.Model;
 using PagedList;
+using System;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
@@ -24,21 +27,22 @@ namespace FinanceProject_WebApp_1_1.Controllers
 
         //TODO: This can be improved to dynamically show all the tickerList using next_url feature
 
-        public async Task<IActionResult> Index(int? page)
+        public IActionResult Index(int? page)
         {
             int pageSize = 50;
             int pageNumber = page ?? 1;
 
-            var url = $"{baseAddress}&limit=500&apiKey={apiKey}";
-            TickerList tickerList =  await client.GetFromJsonAsync<TickerList>(url);
+            //var url = $"{baseAddress}&limit=500&apiKey={apiKey}";
+            //TickerList tickerList =  await client.GetFromJsonAsync<TickerList>(url);
 
-            IPagedList<Tickers> list = tickerList.Results.ToPagedList(pageNumber, pageSize);
+            //IPagedList<Tickers> list = tickerList.Results.ToPagedList(pageNumber, pageSize);
+            IPagedList<Tickers> list = _tickerService.GetAllTickers().ToPagedList(pageNumber, pageSize);
             return View(list);
         }
 
         // GET: TickerController/Details/5
         [HttpGet]
-        public ActionResult Details(string symbol="AAPL")
+        public ActionResult Details(string symbol)
         {
             var ticker = _tickerService.GetTickerBySymbol(symbol);
             if(ticker == null)
@@ -50,62 +54,57 @@ namespace FinanceProject_WebApp_1_1.Controllers
 
         [HttpGet]
         // GET: TickerController/Add
-        public ActionResult Add()
+        public IActionResult Add()
         {
-            var newTicker = new Tickers
-            {
-                Ticker = "TestData3",
-                Active = true,
-                Name = "Test3",
-                Currency_Name = "USD",
-                Composite_Figi = "889"
-            };
-
-            _tickerService.AddTicker(newTicker);
             return View();
         }
 
         // POST: TickerController/Add
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Add(IFormCollection collection)
+        public IActionResult Add(Tickers model)
         {
             try
             {
+                if (ModelState.IsValid)
+                {
+                    _tickerService.AddTicker(model);
+                }
+
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
+                foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    // Handle or log the validation error
+                }
                 return View();
             }
         }
 
         // GET: TickerController/Edit/5
         [HttpGet]
-        public ActionResult Edit(string symbol="TestData")
+        public ActionResult Edit(string symbol)
         {
-            //TODO: This needs update operation
             var existingTicker = _tickerService.GetTickerBySymbol(symbol);
-            if (existingTicker != null)
-            {
-                existingTicker.Composite_Figi = "64794";
-                existingTicker.Active = false;
-                existingTicker.Name = "TestDataNew";
-                _tickerService.UpdateTicker(existingTicker);
-            }
             return View(existingTicker);
         }
 
         // POST: TickerController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(Tickers model)
         {
             try
             {
+                if (ModelState.IsValid) 
+                { 
+                    _tickerService.UpdateTicker(model);
+                }
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch(Exception e)
             {
                 return View();
             }
@@ -113,26 +112,28 @@ namespace FinanceProject_WebApp_1_1.Controllers
 
         // GET: TickerController/Delete/5
         [HttpGet]
-        public ActionResult Delete(string symbol="TestData3")
+        public ActionResult Delete(string symbol)
         {
+            Tickers editTicker = new Tickers();
             try
             {
-                _tickerService.DeleteTicker(symbol);
+               editTicker = _tickerService.GetTickerBySymbol(symbol);
             }
             catch
             {
                 return NoContent();
             }
-            return View();
+            return View(editTicker);
         }
 
         // POST: TickerController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(Tickers tickerToDelete)
         {
             try
             {
+                _tickerService.DeleteTicker(tickerToDelete.Ticker);
                 return RedirectToAction(nameof(Index));
             }
             catch

@@ -1,10 +1,93 @@
-﻿@model Tickers
-@{
-    ViewData["Title"] = "Edit";
+﻿@model FinanceProject_WebApp_1_1.Models.Tickers
+
+@using (Html.BeginForm("Edit", "Ticker", FormMethod.Post))
+{
+
+    <div class="container p-4 border">
+        <div class="row pb-2">
+            <div class="col">
+                <h1 class="text-primary">Edit Stock</h1>
+            </div>
+        </div>
+
+        <table class="table">
+            <tr>
+                <td>
+                    @Html.LabelFor(m=>m.Ticker, "Ticker Symbol") :
+                    <br />
+                    @Html.TextBoxFor(m=>m.Ticker,  new { @readonly = "readonly" , @disabled = "disabled"})
+                    @Html.HiddenFor(m=>m.Ticker)
+                </td>
+                <td>
+                    @* TODO: convert this to a dropdownlist *@
+                    @Html.LabelFor(m =>m.Currency_Name, "Currency") :
+                    <br />
+                    @Html.TextBoxFor(m=>m.Currency_Name)
+                </td>
+                <td>
+
+                    @Html.LabelFor(m=>m.Composite_Figi, "Composite Figi") :
+                    <br />
+                    @Html.TextBoxFor(m=>m.Composite_Figi)
+                </td>
+                <td>
+                    @* TODO: convert this to a checkbox *@
+                    @Html.LabelFor(m=>m.Active, "isActive") :
+                    <br />
+                    @Html.TextBoxFor(m=>m.Active)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(m=>m.Locale) :
+                    <br />
+                    @Html.TextBoxFor(m=>m.Locale)
+                </td>
+                <td>
+                    @Html.LabelFor(m=>m.Market) :
+                    <br />
+                    @Html.TextBoxFor(m=>m.Market)
+                </td>
+                <td>
+                    @Html.LabelFor(m=>m.Cik) :
+                    <br />
+                    @Html.TextBoxFor(m=>m.Cik)
+                </td>
+                <td>
+                    @Html.LabelFor(m=>m.Primary_Exchange, "Primary Exchange") :
+                    <br />
+                    @Html.TextBoxFor(m=>m.Primary_Exchange)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(m=>m.Share_Class_Figi, "Share Class Figi") :
+                    <br />
+                    @Html.TextBoxFor(m=>m.Share_Class_Figi)
+                </td>
+                <td>
+                    @Html.LabelFor(m=>m.Type) :
+                    <br />
+                    @Html.TextBoxFor(m=>m.Type)
+                </td>
+                <td colspan="2">
+                    @Html.LabelFor(m=>m.Name, "Company Name") :
+                    <br />
+                    @Html.TextBoxFor(m=>m.Name)
+                </td>
+
+            </tr>
+            <tr>
+                <td>
+                    <input type="submit" value="Save" class="btn btn-success form-control" />
+                </td>
+                <td>
+                    <a class="btn btn-primary form-control" asp-action="Index">Cancel</a>
+                </td>
+                <td colspan="2"></td>
+            </tr>
+
+        </table>
+
+    </div>
 }
-
-<h4>@Model.Ticker</h4>
-<h4>@Model.Active</h4>
-<h4>@Model.Composite_Figi</h4>
-
-
