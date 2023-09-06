@@ -16,25 +16,25 @@
                 <td>
                     @Html.LabelFor(m=>m.Ticker, "Ticker Symbol") :
                     <br />
-                    @Html.TextBoxFor(m=>m.Ticker,  new { @readonly = "readonly", @disabled = "disabled" })
+                    @Html.TextBoxFor(m=>m.Ticker,  new { @readonly = "readonly", @disabled = "disabled", @class = "form-control" })
                     @Html.HiddenFor(m=>m.Ticker)
                 </td>
                 <td>
                     @Html.LabelFor(m =>m.Currency_Name, "Currency") :
                     <br />
-                    @Html.TextBoxFor(m=>m.Currency_Name,  new { @readonly = "readonly", @disabled = "disabled" })
+                    @Html.TextBoxFor(m=>m.Currency_Name,  new { @readonly = "readonly", @disabled = "disabled", @class = "form-control" })
                     @Html.HiddenFor(m=>m.Currency_Name)
                 </td>
                 <td>
                     @Html.LabelFor(m=>m.Composite_Figi, "Composite Figi") :
                     <br />
-                    @Html.TextBoxFor(m=>m.Composite_Figi,  new { @readonly = "readonly", @disabled = "disabled" })
+                    @Html.TextBoxFor(m=>m.Composite_Figi,  new { @readonly = "readonly", @disabled = "disabled", @class = "form-control" })
                     @Html.HiddenFor(m=>m.Composite_Figi)
                 </td>
                 <td>
                     @Html.LabelFor(m=>m.Active, "isActive") :
                     <br />
-                    @Html.TextBoxFor(m=>m.Active,  new { @readonly = "readonly" , @disabled = "disabled"})
+                    @Html.TextBoxFor(m=>m.Active,  new { @readonly = "readonly" , @disabled = "disabled", @class = "form-control"})
                     @Html.HiddenFor(m=>m.Active)
                 </td>
             </tr>
@@ -42,25 +42,25 @@
                 <td>
                     @Html.LabelFor(m=>m.Locale) :
                     <br />
-                    @Html.TextBoxFor(m=>m.Locale, new { @readonly = "readonly", @disabled = "disabled" })
+                    @Html.TextBoxFor(m=>m.Locale, new { @readonly = "readonly", @disabled = "disabled", @class = "form-control" })
                     @Html.HiddenFor(m=>m.Locale)
                 </td>
                 <td>
                     @Html.LabelFor(m=>m.Market) :
                     <br />
-                    @Html.TextBoxFor(m=>m.Market,  new { @readonly = "readonly" , @disabled = "disabled"})
+                    @Html.TextBoxFor(m=>m.Market,  new { @readonly = "readonly" , @disabled = "disabled", @class = "form-control"})
                     @Html.HiddenFor(m=>m.Market)
                 </td>
                 <td>
                     @Html.LabelFor(m=>m.Cik) :
                     <br />
-                    @Html.TextBoxFor(m=>m.Cik,  new { @readonly = "readonly" , @disabled = "disabled"})
+                    @Html.TextBoxFor(m=>m.Cik,  new { @readonly = "readonly" , @disabled = "disabled", @class = "form-control"})
                     @Html.HiddenFor(m=>m.Cik)
                 </td>
                 <td>
                     @Html.LabelFor(m=>m.Primary_Exchange, "Primary Exchange") :
                     <br />
-                    @Html.TextBoxFor(m=>m.Primary_Exchange,  new { @readonly = "readonly", @disabled = "disabled" })
+                    @Html.TextBoxFor(m=>m.Primary_Exchange,  new { @readonly = "readonly", @disabled = "disabled", @class = "form-control" })
                     @Html.HiddenFor(m=>m.Primary_Exchange)
                 </td>
             </tr>
@@ -68,19 +68,19 @@
                 <td>
                     @Html.LabelFor(m=>m.Share_Class_Figi, "Share Class Figi") :
                     <br />
-                    @Html.TextBoxFor(m=>m.Share_Class_Figi,  new { @readonly = "readonly", @disabled = "disabled" })
+                    @Html.TextBoxFor(m=>m.Share_Class_Figi,  new { @readonly = "readonly", @disabled = "disabled", @class = "form-control" })
                     @Html.HiddenFor(m=>m.Share_Class_Figi)
                 </td>
                 <td>
                     @Html.LabelFor(m=>m.Type) :
                     <br />
-                    @Html.TextBoxFor(m=>m.Type , new { @readonly = "readonly", @disabled = "disabled" })
+                    @Html.TextBoxFor(m=>m.Type , new { @readonly = "readonly", @disabled = "disabled", @class = "form-control" })
                     @Html.HiddenFor(m=>m.Type)
                 </td>
                 <td colspan="2">
                     @Html.LabelFor(m=>m.Name, "Company Name") :
                     <br />
-                    @Html.TextBoxFor(m=>m.Name,  new { @readonly = "readonly", @disabled = "disabled" })
+                    @Html.TextBoxFor(m=>m.Name,  new { @readonly = "readonly", @disabled = "disabled", @class = "form-control" })
                     @Html.HiddenFor(m=>m.Name)
                 </td>
 

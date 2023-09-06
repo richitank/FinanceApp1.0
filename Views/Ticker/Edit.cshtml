@@ -15,65 +15,68 @@
                 <td>
                     @Html.LabelFor(m=>m.Ticker, "Ticker Symbol") :
                     <br />
-                    @Html.TextBoxFor(m=>m.Ticker,  new { @readonly = "readonly" , @disabled = "disabled"})
+                    @Html.TextBoxFor(m=>m.Ticker,  new { @readonly = "readonly" , @disabled = "disabled", @class = "form-control"})
                     @Html.HiddenFor(m=>m.Ticker)
                 </td>
                 <td>
-                    @* TODO: convert this to a dropdownlist *@
+                 
                     @Html.LabelFor(m =>m.Currency_Name, "Currency") :
                     <br />
-                    @Html.TextBoxFor(m=>m.Currency_Name)
+                    @Html.DropDownList("Currency_Name", new List<SelectListItem> {
+                        new SelectListItem {Text = "USD", Value="USD"},
+                        new SelectListItem {Text = "INR", Value="INR"},
+                        new SelectListItem {Text = "CAD", Value="CAD"},
+                        }, "Select Currency", new {@class = "form-control"})
                 </td>
                 <td>
 
                     @Html.LabelFor(m=>m.Composite_Figi, "Composite Figi") :
                     <br />
-                    @Html.TextBoxFor(m=>m.Composite_Figi)
+                    @Html.TextBoxFor(m=>m.Composite_Figi, new {@class = "form-control", type = "number"})
                 </td>
                 <td>
-                    @* TODO: convert this to a checkbox *@
                     @Html.LabelFor(m=>m.Active, "isActive") :
                     <br />
-                    @Html.TextBoxFor(m=>m.Active)
+                    @Html.CheckBoxFor(m=>m.Active)
                 </td>
             </tr>
             <tr>
                 <td>
                     @Html.LabelFor(m=>m.Locale) :
                     <br />
-                    @Html.TextBoxFor(m=>m.Locale)
+                    @Html.TextBoxFor(m=>m.Locale, new {@class = "form-control"})
                 </td>
                 <td>
                     @Html.LabelFor(m=>m.Market) :
                     <br />
-                    @Html.TextBoxFor(m=>m.Market)
+                    @Html.TextBoxFor(m=>m.Market, new {@class = "form-control"})
                 </td>
                 <td>
                     @Html.LabelFor(m=>m.Cik) :
                     <br />
-                    @Html.TextBoxFor(m=>m.Cik)
+                    @Html.TextBoxFor(m=>m.Cik, new {@class = "form-control", type = "number"})
                 </td>
                 <td>
                     @Html.LabelFor(m=>m.Primary_Exchange, "Primary Exchange") :
                     <br />
-                    @Html.TextBoxFor(m=>m.Primary_Exchange)
+                    @Html.TextBoxFor(m=>m.Primary_Exchange, new {@class = "form-control"})
                 </td>
             </tr>
             <tr>
                 <td>
                     @Html.LabelFor(m=>m.Share_Class_Figi, "Share Class Figi") :
                     <br />
-                    @Html.TextBoxFor(m=>m.Share_Class_Figi)
+                    @Html.TextBoxFor(m=>m.Share_Class_Figi, new {@class = "form-control", type = "number"})
                 </td>
                 <td>
                     @Html.LabelFor(m=>m.Type) :
                     <br />
-                    @Html.TextBoxFor(m=>m.Type)
+                    @Html.TextBoxFor(m=>m.Type, new {@class = "form-control"})
                 </td>
                 <td colspan="2">
                     @Html.LabelFor(m=>m.Name, "Company Name") :
                     <br />
-                    @Html.TextBoxFor(m=>m.Name)
+                    @Html.TextBoxFor(m=>m.Name, new {@class = "form-control",  required = "required"})
                 </td>
 
             </tr>

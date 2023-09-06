@@ -13,6 +13,7 @@ namespace FinanceProject_WebApp_1_1.Models
     public class Tickers
     {
         [Key]
+        [Required(ErrorMessage = "This field is required.")]
         public string Ticker { get; set; }
         public bool Active { get; set; }
         public string Cik { get; set; }
@@ -21,6 +22,8 @@ namespace FinanceProject_WebApp_1_1.Models
         public DateTime Last_Updated_Utc { get; set; }
         public string Locale { get; set; }
         public string Market { get; set; }
+
+        [Required(ErrorMessage = "This field is required.")]
         public string Name { get; set; }
         public string Primary_Exchange { get; set; }
         public string Share_Class_Figi { get; set; }
