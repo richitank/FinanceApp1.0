@@ -2,8 +2,10 @@
 using FinanceProject_WebApp_1_1.DbContexts;
 using FinanceProject_WebApp_1_1.Models;
 using Microsoft.CodeAnalysis.Elfie.Model;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace FinanceProject_WebApp_1_1.Repositories
@@ -19,24 +21,24 @@ namespace FinanceProject_WebApp_1_1.Repositories
             _db = db;
            //_mapper = mapper;
         }
-        public Tickers GetBySymbol(string symbol)
+        public async Task<Tickers> GetBySymbol(string symbol)
         {
-            return _db.Tickers.FirstOrDefault(t => t.Ticker == symbol);
+            return await _db.Tickers.FirstOrDefaultAsync(t => t.Ticker == symbol);
         }
 
-        public IEnumerable<Tickers> GetAll()
+        public async Task<IEnumerable<Tickers>> GetAll()
         {
-            return _db.Tickers.ToList();
+            return await _db.Tickers.ToListAsync();
         }
-        public void Add(Tickers ticker)
+        public async Task Add(Tickers ticker)
         {
-            _db.Tickers.Add(ticker);
-            _db.SaveChanges();
+            await _db.Tickers.AddAsync(ticker);
+            await _db.SaveChangesAsync();
         }
 
-        public void Update(Tickers tickerObject)
+        public async Task Update(Tickers tickerObject)
         {
-            var existingTicker = _db.Tickers.FirstOrDefault(t => t.Ticker == tickerObject.Ticker);
+            var existingTicker = await _db.Tickers.FirstOrDefaultAsync(t => t.Ticker == tickerObject.Ticker);
             if (existingTicker != null)
             {
                 existingTicker.Composite_Figi = tickerObject.Composite_Figi;
@@ -50,18 +52,20 @@ namespace FinanceProject_WebApp_1_1.Repositories
                 existingTicker.Name = tickerObject.Name;
                 existingTicker.Primary_Exchange = tickerObject.Primary_Exchange;
                 existingTicker.Type = tickerObject.Type;
+                //TODO: check difference between update and exceute async
                 _db.Tickers.Update(existingTicker);
-                _db.SaveChanges();
+                await _db.SaveChangesAsync();
             }        
         }
 
-        public void Delete(string symbol)
+        public async Task Delete(string symbol)
         {
-            var tickerToDelete = _db.Tickers.FirstOrDefault(t => t.Ticker == symbol);
+            var tickerToDelete = await _db.Tickers.FirstOrDefaultAsync(t => t.Ticker == symbol);
             if (tickerToDelete != null)
             {
+                //TODO: check difference between remove and executedelete async
                 _db.Tickers.Remove(tickerToDelete);
-                _db.SaveChanges();
+                await _db.SaveChangesAsync();
             }
         }
 

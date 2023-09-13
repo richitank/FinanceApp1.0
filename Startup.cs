@@ -3,26 +3,21 @@ using FinanceProject_WebApp_1_1.Repositories;
 using FinanceProject_WebApp_1_1.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Auth0.AspNetCore.Authentication;
 
 namespace FinanceProject_WebApp_1_1
 {
     public class Startup
     {
         private readonly IWebHostEnvironment _webHostEnvironment;
-        public Startup(IConfiguration configuration) // IWebHostEnvironment webHostEnvironment)
+        public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-           // _webHostEnvironment = webHostEnvironment;
         }
 
         public IConfiguration Configuration { get; }
@@ -35,8 +30,12 @@ namespace FinanceProject_WebApp_1_1
             options.UseSqlServer(Configuration.GetConnectionString("FinanceAppConnString"))); 
             services.AddScoped<ITickerRepository, TickerRepository>();
             services.AddScoped<ITickerService, TickerService>();
+            services.AddAuth0WebAppAuthentication(options => {
+                options.Domain = Configuration["Auth0:Domain"];
+                options.ClientId = Configuration["Auth0:ClientId"];
+                options.Scope = "openid profile email";
+            });
 
-           
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,9 +53,8 @@ namespace FinanceProject_WebApp_1_1
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

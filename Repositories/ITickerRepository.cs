@@ -7,11 +7,11 @@ namespace FinanceProject_WebApp_1_1.Repositories
 {
     public interface ITickerRepository
     {
-        IEnumerable<Tickers> GetAll();
-        Tickers GetBySymbol(string symbol);
-        void Add(Tickers ticker);
-        void Update(Tickers ticker);   
-        void Delete(string symbol);
+        Task<IEnumerable<Tickers>> GetAll();
+        Task<Tickers> GetBySymbol(string symbol);
+        Task Add(Tickers ticker);
+        Task Update(Tickers ticker);   
+        Task Delete(string symbol);
 
 
       /*  Task<IEnumerable<Product>> GetProductsAsync();

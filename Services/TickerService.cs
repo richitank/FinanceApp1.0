@@ -1,6 +1,7 @@
 ﻿using FinanceProject_WebApp_1_1.Models;
 using FinanceProject_WebApp_1_1.Repositories;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace FinanceProject_WebApp_1_1.Services
 {
@@ -12,27 +13,27 @@ namespace FinanceProject_WebApp_1_1.Services
             _tickerRepository = tickerRepository;
         }
 
-        public Tickers GetTickerBySymbol(string symbol)
+        public async Task<Tickers> GetTickerBySymbol(string symbol)
         {
-            return _tickerRepository.GetBySymbol(symbol);
+            return await _tickerRepository.GetBySymbol(symbol);
         }
 
-        public IEnumerable<Tickers> GetAllTickers()
+        public async Task<IEnumerable<Tickers>> GetAllTickers()
         {
-            return _tickerRepository.GetAll();
+            return await _tickerRepository.GetAll();
         }
-        public void AddTicker(Tickers ticker)
+        public async Task AddTicker(Tickers ticker)
         {
-            _tickerRepository.Add(ticker);
+            await _tickerRepository.Add(ticker);
         }
 
-        public void UpdateTicker(Tickers tickerObject)
+        public async Task UpdateTicker(Tickers tickerObject)
         {
-            _tickerRepository.Update(tickerObject);
+            await _tickerRepository.Update(tickerObject);
         }
-        public void DeleteTicker(string symbol)
+        public async Task DeleteTicker(string symbol)
         {
-            _tickerRepository.Delete(symbol);
+            await _tickerRepository.Delete(symbol);
         }
 
     }

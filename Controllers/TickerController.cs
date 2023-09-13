@@ -1,6 +1,7 @@
 ﻿using FinanceProject_WebApp_1_1.Models;
 using FinanceProject_WebApp_1_1.Repositories;
 using FinanceProject_WebApp_1_1.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.Elfie.Model;
@@ -23,11 +24,12 @@ namespace FinanceProject_WebApp_1_1.Controllers
 
         static HttpClient client = new HttpClient();
         string apiKey = "zdwksmamdmJ5FpDzhehD7MY4fuZrHgfl";
-        string baseAddress = "https://api.polygon.io/v3/reference/tickers?Active=true";   
+        string baseAddress = "https://api.polygon.io/v3/reference/tickers?Active=true";
 
         //TODO: This can be improved to dynamically show all the tickerList using next_url feature
 
-        public IActionResult Index(int? page)
+        [Authorize]
+        public async Task<IActionResult> Index(int? page)
         {
             int pageSize = 50;
             int pageNumber = page ?? 1;
@@ -36,15 +38,16 @@ namespace FinanceProject_WebApp_1_1.Controllers
             //TickerList tickerList =  await client.GetFromJsonAsync<TickerList>(url);
 
             //IPagedList<Tickers> list = tickerList.Results.ToPagedList(pageNumber, pageSize);
-            IPagedList<Tickers> list = _tickerService.GetAllTickers().ToPagedList(pageNumber, pageSize);
+            //IPagedList<Tickers> list =  await _tickerService.GetAllTickers().ToPagedListAsync(pageNumber, pageSize);
+            var list = await _tickerService.GetAllTickers();
             return View(list);
         }
 
-        // GET: TickerController/Details/5
+        [Authorize]// GET: TickerController/Details/5
         [HttpGet]
-        public ActionResult Details(string symbol)
+        public async Task<IActionResult> Details(string symbol)
         {
-            var ticker = _tickerService.GetTickerBySymbol(symbol);
+            var ticker = await _tickerService.GetTickerBySymbol(symbol);
             if(ticker == null)
             {
                 return NotFound();
@@ -52,23 +55,25 @@ namespace FinanceProject_WebApp_1_1.Controllers
             return View(ticker);
         }
 
+        [Authorize]
         [HttpGet]
         // GET: TickerController/Add
-        public IActionResult Add()
+        public async Task<IActionResult> Add()
         {
             return View();
         }
 
         // POST: TickerController/Add
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Add(Tickers model)
+        public async Task<IActionResult> Add(Tickers model)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    _tickerService.AddTicker(model);
+                    await _tickerService.AddTicker(model);
                 }
 
                 return RedirectToAction(nameof(Index));
@@ -84,23 +89,25 @@ namespace FinanceProject_WebApp_1_1.Controllers
         }
 
         // GET: TickerController/Edit/5
+        [Authorize]
         [HttpGet]
-        public ActionResult Edit(string symbol)
+        public async Task<IActionResult> Edit(string symbol)
         {
-            var existingTicker = _tickerService.GetTickerBySymbol(symbol);
+            var existingTicker = await _tickerService.GetTickerBySymbol(symbol);
             return View(existingTicker);
         }
 
         // POST: TickerController/Edit/5
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Tickers model)
+        public async Task<ActionResult> Edit(Tickers model)
         {
             try
             {
                 if (ModelState.IsValid) 
                 { 
-                    _tickerService.UpdateTicker(model);
+                   await _tickerService.UpdateTicker(model);
                 }
                 return RedirectToAction(nameof(Index));
             }
@@ -111,13 +118,14 @@ namespace FinanceProject_WebApp_1_1.Controllers
         }
 
         // GET: TickerController/Delete/5
+        [Authorize]
         [HttpGet]
-        public ActionResult Delete(string symbol)
+        public async Task<IActionResult> Delete(string symbol)
         {
             Tickers editTicker = new Tickers();
             try
             {
-               editTicker = _tickerService.GetTickerBySymbol(symbol);
+               editTicker = await _tickerService.GetTickerBySymbol(symbol);
             }
             catch
             {
@@ -127,13 +135,14 @@ namespace FinanceProject_WebApp_1_1.Controllers
         }
 
         // POST: TickerController/Delete/5
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(Tickers tickerToDelete)
+        public async Task<IActionResult> Delete(Tickers tickerToDelete)
         {
             try
             {
-                _tickerService.DeleteTicker(tickerToDelete.Ticker);
+                await _tickerService.DeleteTicker(tickerToDelete.Ticker);
                 return RedirectToAction(nameof(Index));
             }
             catch
