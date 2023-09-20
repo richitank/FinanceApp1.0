@@ -36,6 +36,13 @@ namespace FinanceProject_WebApp_1_1.Repositories
             await _db.SaveChangesAsync();
         }
 
+        public async Task AddAll(IEnumerable<Tickers> tickers)
+        {
+            await _db.Tickers.AddRangeAsync(tickers);
+            await _db.SaveChangesAsync();
+        }
+
+
         public async Task Update(Tickers tickerObject)
         {
             var existingTicker = await _db.Tickers.FirstOrDefaultAsync(t => t.Ticker == tickerObject.Ticker);
@@ -55,7 +62,17 @@ namespace FinanceProject_WebApp_1_1.Repositories
                 //TODO: check difference between update and exceute async
                 _db.Tickers.Update(existingTicker);
                 await _db.SaveChangesAsync();
-            }        
+            }
+            else //For new Ticker
+            {
+                await Add(tickerObject);
+            }
+        }
+
+        public async Task UpdateAll(IEnumerable<Tickers> tickerObjects)
+        {
+            _db.Tickers.UpdateRange(tickerObjects);
+            await _db.SaveChangesAsync();
         }
 
         public async Task Delete(string symbol)

@@ -11,5 +11,7 @@ namespace FinanceProject_WebApp_1_1.Services
         Task AddTicker(Tickers tickerObject);
         Task UpdateTicker(Tickers tickerObject);
         Task DeleteTicker(string symbol);
+        Task AddAll(IEnumerable<Tickers> tickerObjects);
+        Task UpdateAll(IEnumerable<Tickers> tickerObjects);
     }
 }

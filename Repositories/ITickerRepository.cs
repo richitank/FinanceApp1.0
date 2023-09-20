@@ -12,12 +12,8 @@ namespace FinanceProject_WebApp_1_1.Repositories
         Task Add(Tickers ticker);
         Task Update(Tickers ticker);   
         Task Delete(string symbol);
+        Task AddAll(IEnumerable<Tickers> tickers);
+        Task UpdateAll(IEnumerable<Tickers> tickers);
 
-
-      /*  Task<IEnumerable<Product>> GetProductsAsync();
-        Task<Product> GetProductByIdAsync(int id);
-        Task AddProductAsync(Product product);
-        Task UpdateProductAsync(Product product);
-        Task DeleteProductAsync(Product product);*/
     }
 }

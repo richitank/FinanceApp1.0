@@ -4,9 +4,11 @@ using FinanceProject_WebApp_1_1.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.Elfie.Diagnostics;
 using Microsoft.CodeAnalysis.Elfie.Model;
 using PagedList;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -33,26 +35,49 @@ namespace FinanceProject_WebApp_1_1.Controllers
         {
             int pageSize = 50;
             int pageNumber = page ?? 1;
+            var tickers = new List<Tickers>();
 
-            //var url = $"{baseAddress}&limit=500&apiKey={apiKey}";
-            //TickerList tickerList =  await client.GetFromJsonAsync<TickerList>(url);
-
+            var url = $"{baseAddress}&limit=5&apiKey={apiKey}";
+            try
+            {
+                TickerList tickerList = await client.GetFromJsonAsync<TickerList>(url);
+                if (tickerList.Results.Count > 0)
+                {
+                    //TODO: improve this solution.
+                    await _tickerService.UpdateAll(tickerList.Results);
+                }
+                var list = await _tickerService.GetAllTickers();
+                return View(list);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Error occured while trying to call API and update DB: {e.Message}");
+                return NoContent();
+            }
+            
             //IPagedList<Tickers> list = tickerList.Results.ToPagedList(pageNumber, pageSize);
             //IPagedList<Tickers> list =  await _tickerService.GetAllTickers().ToPagedListAsync(pageNumber, pageSize);
-            var list = await _tickerService.GetAllTickers();
-            return View(list);
+            
         }
 
         [Authorize]// GET: TickerController/Details/5
         [HttpGet]
         public async Task<IActionResult> Details(string symbol)
         {
-            var ticker = await _tickerService.GetTickerBySymbol(symbol);
-            if(ticker == null)
+            try
             {
-                return NotFound();
+                var ticker = await _tickerService.GetTickerBySymbol(symbol);
+                if (ticker == null)
+                {
+                    return NotFound();
+                }
+                return View(ticker);
             }
-            return View(ticker);
+            catch (Exception e)
+            {
+                Console.WriteLine($"Error occured in Details, while trying to GetTickerBySymbol: {e.Message}");
+                return NoContent();
+            }    
         }
 
         [Authorize]
@@ -78,12 +103,9 @@ namespace FinanceProject_WebApp_1_1.Controllers
 
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception e)
             {
-                foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
-                {
-                    // Handle or log the validation error
-                }
+                Console.WriteLine($"Error occured while adding a new Ticker: {e.Message}");
                 return View();
             }
         }
@@ -93,8 +115,16 @@ namespace FinanceProject_WebApp_1_1.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(string symbol)
         {
-            var existingTicker = await _tickerService.GetTickerBySymbol(symbol);
-            return View(existingTicker);
+            try
+            {
+                var existingTicker = await _tickerService.GetTickerBySymbol(symbol);
+                return View(existingTicker);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Error occured in Edit, while trying to GetTickerBySymbol: {e.Message}");
+                return NoContent();
+            }
         }
 
         // POST: TickerController/Edit/5
@@ -113,6 +143,7 @@ namespace FinanceProject_WebApp_1_1.Controllers
             }
             catch(Exception e)
             {
+                Console.WriteLine($"Error occured while updating Ticker after Edit: {e.Message}");
                 return View();
             }
         }
@@ -127,8 +158,9 @@ namespace FinanceProject_WebApp_1_1.Controllers
             {
                editTicker = await _tickerService.GetTickerBySymbol(symbol);
             }
-            catch
+            catch(Exception e)
             {
+                Console.WriteLine($"Error occured in Delete, while trying to GetTickerBySymbol: {e.Message}");
                 return NoContent();
             }
             return View(editTicker);
@@ -145,8 +177,9 @@ namespace FinanceProject_WebApp_1_1.Controllers
                 await _tickerService.DeleteTicker(tickerToDelete.Ticker);
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception e)
             {
+                Console.WriteLine($"Error occured while trying to Delete a Ticker: {e.Message}");
                 return View();
             }
         }

@@ -26,10 +26,17 @@ namespace FinanceProject_WebApp_1_1.Services
         {
             await _tickerRepository.Add(ticker);
         }
-
+        public async Task AddAll(IEnumerable<Tickers> tickerObjects)
+        {
+            await _tickerRepository.AddAll(tickerObjects);
+        }
         public async Task UpdateTicker(Tickers tickerObject)
         {
             await _tickerRepository.Update(tickerObject);
+        }
+        public async Task UpdateAll(IEnumerable<Tickers> tickerObjects)
+        {
+            await _tickerRepository.UpdateAll(tickerObjects);
         }
         public async Task DeleteTicker(string symbol)
         {
